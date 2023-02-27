@@ -9,7 +9,6 @@ function __git_prompt_git() {
   GIT_OPTIONAL_LOCKS=0 command git "$@"
 }
 
-git_prompt_part=""
 function git_prompt_info() {
   # If we are on a folder not tracked by git, get out.
   # Otherwise, check for hide-info at global and local repository level
@@ -30,10 +29,7 @@ function git_prompt_info() {
     && upstream=" -> ${upstream}"
   fi
 
-  echo "${ZSH_THEME_GIT_PROMPT_PREFIX}${ref:gs/%/%%}${upstream:gs/%/%%}$(parse_git_dirty)${ZSH_THEME_GIT_PROMPT_SUFFIX}"
-  # parse_git_dirty
-  # echo "${ZSH_THEME_GIT_PROMPT_PREFIX}${ref}${upstream}$(parse_git_dirty)${ZSH_THEME_GIT_PROMPT_SUFFIX}"
-  # echo "${ZSH_THEME_GIT_PROMPT_PREFIX}${ref}${upstream}${git_prompt_part}${ZSH_THEME_GIT_PROMPT_SUFFIX}"
+  echo "${ZSH_THEME_GIT_PROMPT_PREFIX}${ref:gs/%/%%}${upstream:gs/%/%%}$(parse_git_dirty)"
 }
 
 # Checks if working tree is dirty
@@ -58,11 +54,9 @@ function parse_git_dirty() {
     STATUS=$(__git_prompt_git status ${FLAGS} 2> /dev/null | tail -n 1)
   fi
   if [[ -n $STATUS ]]; then
-    # echo "$ZSH_THEME_GIT_PROMPT_DIRTY"
-    git_prompt_part="$ZSH_THEME_GIT_PROMPT_DIRTY"
+    echo "$ZSH_THEME_GIT_PROMPT_DIRTY"
   else
-    # echo "$ZSH_THEME_GIT_PROMPT_CLEAN"
-    git_prompt_part="$ZSH_THEME_GIT_PROMPT_CLEAN"
+    echo "$ZSH_THEME_GIT_PROMPT_CLEAN"
   fi
 }
 
